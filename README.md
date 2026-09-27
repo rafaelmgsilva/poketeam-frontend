@@ -75,32 +75,11 @@ A solução é composta por três componentes principais:
 
 Além disso, o backend utiliza SQLite para persistência dos dados da equipe.
 
-```text
-                              ┌─────────────────┐
-                              │     PokéAPI     │
-                              │   API externa   │
-                              │   REST / GET    │
-                              └────────▲────────┘
-                                       │
-                                       │ HTTP
-                                       │
-┌──────────────────┐       REST       ┌┴─────────────────┐
-│                  │─────────────────►│                  │
-│     FRONTEND     │                  │     BACKEND      │
-│                  │◄─────────────────│                  │
-│ React + MUI      │                  │ FastAPI + Python │
-│ Nginx + Docker   │                  │ Docker           │
-└──────────────────┘                  └────────┬─────────┘
-                                              │
-                                              │ SQLAlchemy
-                                              ▼
-                                     ┌─────────────────┐
-                                     │     SQLite      │
-                                     │  Persistência   │
-                                     └─────────────────┘
-```
+### Diagrama da arquitetura
 
-O fluxo de comunicação principal é:
+![Arquitetura do PokéTeam](docs/arquitetura-poketeam.png)
+
+### Fluxo de comunicação
 
 ```text
 Usuário
@@ -108,20 +87,16 @@ Usuário
    v
 PokéTeam Frontend
    |
-   | REST
+   | REST / JSON
+   | GET / POST / PUT / DELETE
    v
 PokéTeam API
    |
    +-----------> PokéAPI
+   |              HTTPS / REST / GET
    |
    +-----------> SQLite
-```
-
-
-```markdown
-### Diagrama da arquitetura
-
-![Arquitetura do PokéTeam](docs/arquitetura-poketeam.png)
+                  SQLAlchemy ORM
 ```
 
 ---
@@ -152,7 +127,7 @@ Responsável por:
 
 ### PokéAPI
 
-Responsável por fornecer os dados oficiais utilizados pela aplicação, como:
+Responsável por fornecer os dados utilizados pela aplicação, como:
 
 - identificador do Pokémon;
 - nome;
@@ -280,6 +255,9 @@ Essa abordagem reduz o acoplamento entre a interface e a API externa.
 ```text
 poketeam-frontend/
 │
+├── docs/
+│   └── arquitetura-poketeam.png
+│
 ├── public/
 │
 ├── src/
@@ -337,8 +315,6 @@ removePokemonFromTeam()
 
 Dessa forma, os componentes da interface não precisam conhecer diretamente as URLs das rotas.
 
----
-
 ### `src/components`
 
 Contém componentes reutilizáveis da interface.
@@ -359,8 +335,6 @@ Representa visualmente um Pokémon pertencente à equipe.
 
 Disponibiliza o formulário para edição das informações personalizadas.
 
----
-
 ### `src/pages`
 
 Contém as páginas da aplicação.
@@ -380,8 +354,6 @@ Ela coordena:
 - remoção;
 - notificações;
 - estado da interface.
-
----
 
 ### `src/theme`
 
@@ -545,22 +517,10 @@ http://localhost:3000
 1. Acesse o PokéTeam.
 2. Digite o nome ou número de um Pokémon.
 3. Clique em **Buscar**.
-4. Visualize:
-   - imagem;
-   - número da Pokédex;
-   - tipos;
-   - HP;
-   - ataque;
-   - defesa;
-   - velocidade;
-   - altura;
-   - peso.
+4. Visualize a imagem, número da Pokédex, tipos e atributos.
 5. Clique em **Adicionar à equipe**.
 6. O Pokémon será persistido pelo backend.
-7. Clique em **Editar** para personalizar:
-   - apelido;
-   - função;
-   - observações.
+7. Clique em **Editar** para personalizar apelido, função e observações.
 8. Clique em **Remover** caso queira retirar o Pokémon da equipe.
 
 ---
@@ -671,6 +631,7 @@ MVP funcional.
 - [x] Dockerfile.
 - [x] Execução com Docker.
 - [x] Validação do código com linter.
+- [x] Diagrama de arquitetura.
 
 ---
 
