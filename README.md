@@ -117,11 +117,10 @@ PokéTeam API
    +-----------> SQLite
 ```
 
-> Uma versão gráfica do diagrama de arquitetura será armazenada no diretório `docs`.
-
-Após a inclusão da imagem, ela poderá ser visualizada abaixo:
 
 ```markdown
+### Diagrama da arquitetura
+
 ![Arquitetura do PokéTeam](docs/arquitetura-poketeam.png)
 ```
 
